@@ -41,6 +41,33 @@ app.put("/update/:_id",async (req,resp)=>
     console.log(data);
 });
 
+//serching in database
+app.get('/search/:key', async (req,resp)=>
+{
+    console.log(req.params.key);
+    let data;
+    
+
+         data = await products.find(
+            {
+                "$or":
+                [
+                    
+                    {
+                        "model": {$regex:req.params.key}
+                    },
+                    {
+                        "brand": {$regex:req.params.key}
+                    },
+                    
+                    
+                ]
+            }
+            );
+
+        resp.send(data);
+});
+
 app.get('*',(req,resp)=>
 {
     resp.send(" Link Broken! Invalid URL");
